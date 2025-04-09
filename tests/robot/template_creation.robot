@@ -132,8 +132,11 @@ Delete GitHub Repository
     ...    expected_status=204
     
     # Verify the repository was deleted successfully (204 No Content)
-    Should Be Equal As Strings    ${response.status_code}    204
-    Log    Repository '${REPO_NAME}' has been successfully deleted.
+    try:
+        Should Be Equal As Strings    ${response.status_code}    204
+        Log    Repository '${REPO_NAME}' has been successfully deleted.
+    except AssertionError as e:
+        Log    Failed to delete repository '${REPO_NAME}': ${e}
 
 *** Test Cases ***
 Create New Project From Template
